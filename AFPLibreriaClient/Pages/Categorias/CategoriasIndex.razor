@@ -1,0 +1,64 @@
+﻿@page "/categorias"
+
+
+@inject HttpClient http
+
+<div class="col-8">
+    <EditForm Model="categoria" OnValidSubmit="OnClick">
+        <DataAnnotationsValidator />
+        <div class="form-row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="tit">Categoria</label>
+                    <input type="text" class="form-control" id="tit" @bind-value="categoria.Categoria1" />
+                    <ValidationMessage For="() => categoria.Categoria1" />
+                </div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary" name="name" value="Guardar" />
+    </EditForm>
+
+    <hr />
+
+    <div class="table-responsive">
+        <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" PageSize="5" AllowPaging="true" AllowSorting="true" Data="@ListCategorias" TItem="Categoria" ColumnWidth="300px" LogicalFilterOperator="Radzen.LogicalFilterOperator.Or">
+            <Columns>
+                <RadzenDataGridColumn TItem="Categoria" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="50px" TextAlign="Radzen.TextAlign.Center" />
+
+                <RadzenDataGridColumn TItem="Categoria" Property="Categoria1" Title="Categoria" />
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+
+    public Categoria categoria { get; set; } = new Categoria();
+
+
+
+    List<Categoria> ListCategorias = new List<Categoria>();
+    private string api = "https://localhost:44340/api/";
+
+    protected async override Task OnInitializedAsync()
+    {
+        await ObtenerCategorias();
+
+
+    }
+
+    private async Task ObtenerCategorias()
+    {
+        ListCategorias = await http.GetFromJsonAsync<List<Categoria>>($"{api}Categorias");
+    }
+
+    private async Task OnClick()
+    {
+
+        await http.PostAsJsonAsync($"{api}Categorias", categoria);
+        categoria = new Categoria();
+
+        await ObtenerCategorias();
+        this.StateHasChanged();
+
+    }
+}

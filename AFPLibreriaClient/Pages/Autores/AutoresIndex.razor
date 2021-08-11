@@ -1,0 +1,64 @@
+﻿@page "/autores"
+
+
+@inject HttpClient http
+
+<div class="col-8">
+    <EditForm Model="autor" OnValidSubmit="OnClick">
+        <DataAnnotationsValidator />
+        <div class="form-row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="tit">Nombre</label>
+                    <input type="text" class="form-control" id="tit" @bind-value="autor.Nombre" />
+                    <ValidationMessage For="() => autor.Nombre" />
+                </div>
+            </div>      
+        </div>
+        <input type="submit"class="btn btn-primary" name="name" value="Guardar" />
+    </EditForm>
+
+    <hr />
+
+    <div class="table-responsive">
+        <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" PageSize="5" AllowPaging="true" AllowSorting="true" Data="@ListAutores" TItem="Autore" ColumnWidth="300px" LogicalFilterOperator="Radzen.LogicalFilterOperator.Or">
+            <Columns>
+                <RadzenDataGridColumn TItem="Autore" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="50px" TextAlign="Radzen.TextAlign.Center" />
+
+                <RadzenDataGridColumn TItem="Autore" Property="Nombre" Title="Nombre" />
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+  
+    public Autore autor { get; set; } = new Autore();
+
+
+
+    List<Autore> ListAutores = new List<Autore>();
+    private string api = "https://localhost:44340/api/";
+
+    protected async override Task OnInitializedAsync()
+    {
+        await ObtenerAutores();
+        
+        
+    }
+
+    private async Task ObtenerAutores()
+    {
+        ListAutores = await http.GetFromJsonAsync<List<Autore>>($"{api}Autores");
+    }
+ 
+    private async Task OnClick()
+    {
+        
+        await http.PostAsJsonAsync($"{api}Autores", autor);
+        autor = new Autore();
+        
+        await ObtenerAutores();
+        this.StateHasChanged();
+
+    }
+}

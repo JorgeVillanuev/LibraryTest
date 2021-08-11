@@ -1,0 +1,64 @@
+﻿@page "/operaciones"
+
+
+@inject HttpClient http
+
+<div class="col-8">
+    <EditForm Model="operacion" OnValidSubmit="OnClick">
+        <DataAnnotationsValidator />
+        <div class="form-row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="tit">Operacion</label>
+                    <input type="text" class="form-control" id="tit" @bind-value="operacion.Operacion" />
+                    <ValidationMessage For="() => operacion.Operacion" />
+                </div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary" name="name" value="Guardar" />
+    </EditForm>
+
+    <hr />
+
+    <div class="table-responsive">
+        <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" PageSize="5" AllowPaging="true" AllowSorting="true" Data="@ListOperaciones" TItem="Operacione" ColumnWidth="300px" LogicalFilterOperator="Radzen.LogicalFilterOperator.Or">
+            <Columns>
+                <RadzenDataGridColumn TItem="Operacione" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="50px" TextAlign="Radzen.TextAlign.Center" />
+
+                <RadzenDataGridColumn TItem="Operacione" Property="Operacion" Title="Operacion" />
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+
+    public Operacione operacion { get; set; } = new Operacione();
+
+
+
+    List<Operacione> ListOperaciones = new List<Operacione>();
+    private string api = "https://localhost:44340/api/";
+
+    protected async override Task OnInitializedAsync()
+    {
+        await ObtenerOperaciones();
+
+
+    }
+
+    private async Task ObtenerOperaciones()
+    {
+        ListOperaciones = await http.GetFromJsonAsync<List<Operacione>>($"{api}Operaciones");
+    }
+
+    private async Task OnClick()
+    {
+
+        await http.PostAsJsonAsync($"{api}Operaciones", operacion);
+        operacion = new Operacione();
+
+        await ObtenerOperaciones();
+        this.StateHasChanged();
+
+    }
+}

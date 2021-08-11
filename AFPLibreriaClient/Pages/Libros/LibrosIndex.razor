@@ -1,0 +1,94 @@
+﻿@page "/clientes"
+
+
+@inject HttpClient http
+
+<div class="col-8">
+    <EditForm Model="cliente" OnValidSubmit="OnClick">
+        <DataAnnotationsValidator />
+        <div class="form-row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="tit">Nombres</label>
+                    <input type="text" class="form-control" id="tit" @bind-value="cliente.Nombres" />
+                    <ValidationMessage For="() => cliente.Nombres" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="desc">Apellidos</label>
+                    <input type="text" class="form-control" id="desc" @bind-value="cliente.Apellidos" />
+                    <ValidationMessage For="() => cliente.Apellidos" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="desc">Dui</label>
+                    <input type="text" class="form-control" id="desc" @bind-value="cliente.Dui" />
+                    <ValidationMessage For="() => cliente.Dui" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="tit">Direccion</label>
+                    <input type="text" class="form-control" id="tit" @bind-value="cliente.Direccion" />
+                    <ValidationMessage For="() => cliente.Direccion" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label for="desc">Telefono</label>
+                    <input type="text" class="form-control" id="desc" @bind-value="cliente.Telefono" />
+                    <ValidationMessage For="() => cliente.Telefono" />
+                </div>
+            </div>           
+        </div>
+        <input type="submit" class="btn btn-primary" name="name" value="Guardar" />
+    </EditForm>
+
+    <hr />
+
+    <div class="table-responsive">
+        <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" PageSize="5" AllowPaging="true" AllowSorting="true" Data="@ListClientes" TItem="Cliente" ColumnWidth="300px" LogicalFilterOperator="Radzen.LogicalFilterOperator.Or">
+            <Columns>
+                <RadzenDataGridColumn TItem="Cliente" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="50px" TextAlign="Radzen.TextAlign.Center" />
+                <RadzenDataGridColumn TItem="Cliente" Property="Nombres" Title="Nombre" />
+                <RadzenDataGridColumn TItem="Cliente" Property="Apellidos" Title="Apellido" />
+                <RadzenDataGridColumn TItem="Cliente" Property="Dui" Title="Dui" />
+                <RadzenDataGridColumn TItem="Cliente" Property="Direccion" Title="Direccion" />
+                <RadzenDataGridColumn TItem="Cliente" Property="Telefono" Title="Telefono" />
+            </Columns>
+        </RadzenDataGrid>
+    </div>
+</div>
+@code {
+  
+    public Cliente cliente { get; set; } = new Cliente(); 
+
+    List<Cliente> ListClientes = new List<Cliente>();
+    private string api = "https://localhost:44340/api/";
+
+    protected async override Task OnInitializedAsync()
+    {
+        await ObtenerClientes();
+    }
+
+    private async Task ObtenerClientes()
+    {
+        ListClientes = await http.GetFromJsonAsync<List<Cliente>>($"{api}Clientes");
+    }
+ 
+    private async Task OnClick()
+    {
+        
+        await http.PostAsJsonAsync($"{api}Clientes", cliente);
+        cliente = new Cliente();
+        
+        await ObtenerClientes();
+        this.StateHasChanged();
+
+    }
+}
