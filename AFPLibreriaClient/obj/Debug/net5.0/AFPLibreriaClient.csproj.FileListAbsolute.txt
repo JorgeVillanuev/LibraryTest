@@ -646,3 +646,5 @@ C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\ob
 C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\obj\Debug\net5.0\Razor\Pages\Operaciones\OperacionesIndex.razor.g.cs
 C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\obj\Debug\net5.0\RazorDeclaration\Pages\Clientes\ClientesIndex.razor.g.cs
 C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\obj\Debug\net5.0\Razor\Pages\Clientes\ClientesIndex.razor.g.cs
+C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\obj\Debug\net5.0\RazorDeclaration\Pages\OperacionesDetalle\OperacionesDetalleIndex.razor.g.cs
+C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\obj\Debug\net5.0\Razor\Pages\OperacionesDetalle\OperacionesDetalleIndex.razor.g.cs

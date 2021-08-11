@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace AFPLibreriaClient.Pages.Clientes
+namespace AFPLibreriaClient.Pages.OperacionesDetalle
 {
     #line hidden
     using System;
@@ -110,48 +110,13 @@ using System.IO;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/clientes")]
-    public partial class ClientesIndex : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class OperacionesDetalleIndex : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
-#nullable restore
-#line 67 "C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\Pages\Clientes\ClientesIndex.razor"
-       
-  
-    public Cliente cliente { get; set; } = new Cliente(); 
-
-    List<Cliente> ListClientes = new List<Cliente>();
-    private string api = "https://localhost:44340/api/";
-
-    protected async override Task OnInitializedAsync()
-    {
-        await ObtenerClientes();
-    }
-
-    private async Task ObtenerClientes()
-    {
-        ListClientes = await http.GetFromJsonAsync<List<Cliente>>($"{api}Clientes");
-    }
- 
-    private async Task OnClick()
-    {
-        
-        await http.PostAsJsonAsync($"{api}Clientes", cliente);
-        cliente = new Cliente();
-        
-        await ObtenerClientes();
-        this.StateHasChanged();
-
-    }
-
-#line default
-#line hidden
-#nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private HttpClient http { get; set; }
     }
 }
 #pragma warning restore 1591

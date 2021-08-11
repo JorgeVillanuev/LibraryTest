@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace AFPLibreriaClient.Pages.Clientes
+namespace AFPLibreriaClient.Pages.OperacionesDetalle
 {
     #line hidden
     using System;
@@ -110,8 +110,8 @@ using System.IO;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/clientes")]
-    public partial class ClientesIndex : Microsoft.AspNetCore.Components.ComponentBase
+    [Microsoft.AspNetCore.Components.RouteAttribute("/libros")]
+    public partial class LibrosIndex : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -119,31 +119,86 @@ using System.IO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 67 "C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\Pages\Clientes\ClientesIndex.razor"
+#line 110 "C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\Pages\OperacionesDetalle\LibrosIndex.razor"
        
-  
-    public Cliente cliente { get; set; } = new Cliente(); 
+    public string imageUrl;
 
-    List<Cliente> ListClientes = new List<Cliente>();
+    public Libro libro { get; set; } = new Libro();
+
+    public List<Categoria> ListCategorias { get; set; } = new List<Categoria>();
+    public List<Autore> ListAutores { get; set; } = new List<Autore>();
+
+    List<Libro> ListLibros = new List<Libro>();
     private string api = "https://localhost:44340/api/";
 
     protected async override Task OnInitializedAsync()
     {
-        await ObtenerClientes();
+        await ObtenerLibros();
+        await ObtenrAutores();
+        await ObtenrCategorias();
     }
 
-    private async Task ObtenerClientes()
+    private async Task ObtenerLibros()
     {
-        ListClientes = await http.GetFromJsonAsync<List<Cliente>>($"{api}Clientes");
+        ListLibros = await http.GetFromJsonAsync<List<Libro>>($"{api}Libros");
     }
- 
+    private async Task<List<Categoria>> ObtenrCategorias()
+    {
+        ListCategorias = await http.GetFromJsonAsync<List<Categoria>>($"{api}categorias");
+
+        return ListCategorias;
+    }
+    private async Task<List<Autore>> ObtenrAutores()
+    {
+        ListAutores = await http.GetFromJsonAsync<List<Autore>>($"{api}autores");
+
+        return ListAutores;
+    }
+
+    private async Task LoadData(LoadDataArgs args, string opcion)
+    {
+        switch (opcion)
+        {
+            case "cat":
+                var query = await ObtenrCategorias();
+
+                if (!string.IsNullOrEmpty(args.Filter))
+                {
+                    query = query.Where(c => c.Categoria1.ToLower().Contains(args.Filter.ToLower())).ToList();
+                }
+                ListCategorias = query;
+                break;
+            case "aut":
+                var query1 = await ObtenrAutores();
+
+                if (!string.IsNullOrEmpty(args.Filter))
+                {
+                    query1 = query1.Where(c => c.Nombre.ToLower().Contains(args.Filter.ToLower())).ToList();
+                }
+                ListAutores = query1;
+                break;
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private string format = "image/png";
+    private IBrowserFile imagen;
+    private async Task OnChange(InputFileChangeEventArgs e)
+    {
+        imagen = e.GetMultipleFiles().FirstOrDefault();
+        var buffer = new byte[imagen.Size];
+        await imagen.OpenReadStream().ReadAsync(buffer);
+        imageUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
+        this.StateHasChanged();
+    }
+
     private async Task OnClick()
     {
-        
-        await http.PostAsJsonAsync($"{api}Clientes", cliente);
-        cliente = new Cliente();
-        
-        await ObtenerClientes();
+        libro.Imagen = imageUrl;
+        await http.PostAsJsonAsync($"{api}Libros", libro);
+        libro = new Libro();
+        imageUrl = null;
+        await ObtenerLibros();
         this.StateHasChanged();
 
     }

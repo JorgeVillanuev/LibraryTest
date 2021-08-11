@@ -197,11 +197,11 @@
       "mscorlib.dll": "sha256-CUpudhojlkcrp2dsiJFF\/H\/WNg+uAhzoGkSWfOta\/U0=",
       "netstandard.dll": "sha256-vJpyW6cE\/+ewo5rVB5JUu9x2f8aLnqoIazac8ef5FzQ=",
       "System.Private.CoreLib.dll": "sha256-CvQTDivHJZAtRXyCbDa5f5+okJt39WRFrZSmXTMSau0=",
-      "AFPLibreriaClient.dll": "sha256-7GiyS6UFBv\/smfydYjLj+1IhqzaD0h2NjEvD\/IdDWCE="
+      "AFPLibreriaClient.dll": "sha256-sJPKzFAvPSFOYngXqjR0jIhcbf1pbqseWLGO36Y0SEg="
     },
     "lazyAssembly": null,
     "pdb": {
-      "AFPLibreriaClient.pdb": "sha256-4ZB1ZaWOJdIF0\/NHE964zlUkU7doAetc0CCWlSf12GA="
+      "AFPLibreriaClient.pdb": "sha256-2sBrXgrgyvU2QMEKeTvYqkA3iVufgm8HLyTjmuVJpLg="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-2OdnPsDgJyoSaSlvebGMRd2MxC+4UIqparqVrQZAFDE=",

@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace AFPLibreriaClient.Pages.Clientes
+namespace AFPLibreriaClient.Pages._Libros
 {
     #line hidden
     using System;
@@ -111,7 +111,7 @@ using System.IO;
 #line hidden
 #nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/clientes")]
-    public partial class ClientesIndex : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class LibrosIndex : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -119,7 +119,7 @@ using System.IO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 67 "C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\Pages\Clientes\ClientesIndex.razor"
+#line 67 "C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\Pages\_Libros\LibrosIndex.razor"
        
   
     public Cliente cliente { get; set; } = new Cliente(); 

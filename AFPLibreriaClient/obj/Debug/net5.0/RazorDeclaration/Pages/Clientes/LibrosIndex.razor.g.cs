@@ -110,7 +110,7 @@ using System.IO;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/libros")]
+    [Microsoft.AspNetCore.Components.RouteAttribute("/clientes")]
     public partial class LibrosIndex : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
@@ -119,86 +119,31 @@ using System.IO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 110 "C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\Pages\Clientes\LibrosIndex.razor"
+#line 67 "C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\Pages\Clientes\LibrosIndex.razor"
        
-    public string imageUrl;
+  
+    public Cliente cliente { get; set; } = new Cliente(); 
 
-    public Libro libro { get; set; } = new Libro();
-
-    public List<Categoria> ListCategorias { get; set; } = new List<Categoria>();
-    public List<Autore> ListAutores { get; set; } = new List<Autore>();
-
-    List<Libro> ListLibros = new List<Libro>();
+    List<Cliente> ListClientes = new List<Cliente>();
     private string api = "https://localhost:44340/api/";
 
     protected async override Task OnInitializedAsync()
     {
-        await ObtenerLibros();
-        await ObtenrAutores();
-        await ObtenrCategorias();
+        await ObtenerClientes();
     }
 
-    private async Task ObtenerLibros()
+    private async Task ObtenerClientes()
     {
-        ListLibros = await http.GetFromJsonAsync<List<Libro>>($"{api}Libros");
+        ListClientes = await http.GetFromJsonAsync<List<Cliente>>($"{api}Clientes");
     }
-    private async Task<List<Categoria>> ObtenrCategorias()
-    {
-        ListCategorias = await http.GetFromJsonAsync<List<Categoria>>($"{api}categorias");
-
-        return ListCategorias;
-    }
-    private async Task<List<Autore>> ObtenrAutores()
-    {
-        ListAutores = await http.GetFromJsonAsync<List<Autore>>($"{api}autores");
-
-        return ListAutores;
-    }
-
-    private async Task LoadData(LoadDataArgs args, string opcion)
-    {
-        switch (opcion)
-        {
-            case "cat":
-                var query = await ObtenrCategorias();
-
-                if (!string.IsNullOrEmpty(args.Filter))
-                {
-                    query = query.Where(c => c.Categoria1.ToLower().Contains(args.Filter.ToLower())).ToList();
-                }
-                ListCategorias = query;
-                break;
-            case "aut":
-                var query1 = await ObtenrAutores();
-
-                if (!string.IsNullOrEmpty(args.Filter))
-                {
-                    query1 = query1.Where(c => c.Nombre.ToLower().Contains(args.Filter.ToLower())).ToList();
-                }
-                ListAutores = query1;
-                break;
-        }
-        await InvokeAsync(StateHasChanged);
-    }
-
-    private string format = "image/png";
-    private IBrowserFile imagen;
-    private async Task OnChange(InputFileChangeEventArgs e)
-    {
-        imagen = e.GetMultipleFiles().FirstOrDefault();
-        var buffer = new byte[imagen.Size];
-        await imagen.OpenReadStream().ReadAsync(buffer);
-        imageUrl = $"data:{format};base64,{Convert.ToBase64String(buffer)}";
-        this.StateHasChanged();
-    }
-
+ 
     private async Task OnClick()
     {
-        libro.Imagen = imageUrl;
-        await http.PostAsJsonAsync($"{api}Libros", libro);
-        libro = new Libro();
-        imageUrl = null;
-        await ObtenerLibros();
+        
+        await http.PostAsJsonAsync($"{api}Clientes", cliente);
+        cliente = new Cliente();
+        
+        await ObtenerClientes();
         this.StateHasChanged();
 
     }

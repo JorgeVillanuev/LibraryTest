@@ -118,7 +118,7 @@ using System.IO;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 24 "C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\Shared\NavMenu.razor"
+#line 45 "C:\Users\Jorge Villanueva\Desktop\AfpPrueba\LibreriaProject\AFPLibreriaClient\Shared\NavMenu.razor"
        
     private bool collapseNavMenu = true;
 
